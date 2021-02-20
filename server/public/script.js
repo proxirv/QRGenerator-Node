@@ -1,7 +1,7 @@
 function createqr() {
 	const aux =document.getElementById('url').value;
 	console.log(aux);
-	let test='http://127.0.0.1:3040/api/generateqr';
+	let test='http://127.0.0.1:3040/api/qrgenerator';
 	fetch(
       test,
 		{
@@ -19,24 +19,31 @@ function createqr() {
 	).then(
 		(response) => {
             console.log(
-				'el servidor devuelve el siguiente mensaje 1: '+
+				'Mensaje: '+
 				JSON.stringify(response.msj)
 			);
             console.log(
-				'el servidor devuelve el siguiente mensaje 2: '+
+				'Estatus: '+
 				JSON.stringify(response.status)
 			);
-			console.log(
-				'el servidor devuelve el siguiente mensaje 3: '+
-				JSON.stringify(response.data)
-			);
-			let image = `
+
+			if (response.data) {
+				console.log(
+					'Data: '+
+					JSON.stringify(response.data)
+				);
+				let image = `
 				<div>
 					<h2>Este es el QR generado</h2>
 					<img src="${response.data}">
 				</div>
-			`;
-			document.getElementById("resultado").innerHTML = image;
+				`;
+				document.getElementById("resultado").innerHTML = image;
+			}  else {
+				let valor ='';
+				document.getElementById("resultado").innerHTML = valor;
+				alert(response.msj);
+			};
 		}
 	).catch(
 		(error) => { 
